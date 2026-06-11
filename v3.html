@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ซิลเวอร์แคร์ — บริการพาไปโรงพยาบาลระดับพรีเมียม</title>
+<meta name="description" content="ซิลเวอร์แคร์ บริการพาไปโรงพยาบาลพร้อมผู้ดูแลระดับพรีเมียม ดูแลผู้สูงอายุ ผู้ป่วย และชาวต่างชาติด้วยความใส่ใจ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --navy:#0D1B2A;
+  --navy-mid:#112030;
+  --navy-light:#1C3048;
+  --stone:#D9CFC4;
+  --stone-dim:#B5A898;
+  --terracotta:#C4907A;
+  --plum:#4A2040;
+  --plum-light:#6B3060;
+  --gold:#C9A86C;
+  --gold-light:#E8D5A3;
+  --cream:#FDFAF6;
+}
+body{
+  font-family:'IBM Plex Sans Thai','Sukhumvit Set',sans-serif;
+  background:var(--navy);
+  color:var(--stone);
+  line-height:1.8;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  overflow-x:hidden;
+  font-size:16px;
+}
+
+/* ── TYPOGRAPHY ── */
+h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;line-height:1.5}
+html[lang="en"] .track-wide{letter-spacing:.12em;text-transform:uppercase}
+html[lang="th"] .track-wide{letter-spacing:0;text-transform:none}
+html[lang="en"] .eyebrow{letter-spacing:.18em}
+html[lang="th"] .eyebrow{letter-spacing:.04em}
+
+img{max-width:100%;height:auto;display:block}
+
+/* ── UTILITY ── */
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 1.25rem}
+.eyebrow{
+  font-size:.72rem;text-transform:uppercase;color:var(--terracotta);
+  font-weight:500;display:block;margin-bottom:.75rem
+}
+.ornament{display:flex;align-items:center;gap:.9rem;justify-content:center;margin:1.1rem 0}
+.ornament::before,.ornament::after{content:'';flex:1;max-width:70px;height:1px}
+.ornament::before{background:linear-gradient(to right,transparent,var(--gold))}
+.ornament::after{background:linear-gradient(to left,transparent,var(--gold))}
+.ornament-gem{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease-out,transform .65s ease-out}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ── BUTTONS ── */
+.btn-gold{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:var(--gold);color:var(--navy);
+  padding:.85em 1.9em;border-radius:2px;font-weight:600;
+  font-size:.875rem;text-decoration:none;border:none;cursor:pointer;
+  transition:background .3s,transform .2s,box-shadow .3s;
+  min-height:44px;font-family:inherit;
+}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,108,.35)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:transparent;color:var(--stone);
+  padding:.85em 1.9em;border-radius:2px;font-weight:400;
+  font-size:.875rem;text-decoration:none;
+  border:1px solid rgba(217,207,196,.3);cursor:pointer;
+  transition:color .3s,border-color .3s,transform .2s;
+  min-height:44px;font-family:inherit;
+}
+.btn-ghost:hover{color:var(--gold);border-color:var(--gold);transform:translateY(-2px)}
+
+/* ── NAVBAR ── */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:1.2rem 0;
+  transition:background .4s,padding .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+.navbar.scrolled{
+  background:rgba(13,27,42,.95);backdrop-filter:blur(14px);
+  padding:.7rem 0;border-bottom-color:rgba(201,168,108,.15);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0 1.25rem;max-width:1200px;margin:0 auto}
+.nav-logo{text-decoration:none;line-height:1.1}
+.nav-logo-main{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;color:var(--cream)}
+.nav-logo-sub{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:300;display:block;margin-top:.1rem}
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.nav-links{display:none;list-style:none;flex-direction:row;gap:1.8rem;align-items:center}
+.nav-links a{color:var(--stone-dim);text-decoration:none;font-size:.82rem;padding:.5rem 0;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+/* lang switcher */
+.lang-sw{
+  display:flex;align-items:center;gap:.3rem;
+  color:var(--stone-dim);font-size:.78rem;
+  padding:.35rem .55rem;border:1px solid rgba(217,207,196,.18);
+  border-radius:3px;transition:color .2s,border-color .2s;
+  white-space:nowrap;
+}
+.lang-sw:hover{color:var(--gold);border-color:rgba(201,168,108,.4)}
+/* hamburger */
+.ham{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:.45rem;background:none;border:none;outline:none}
+.ham span{display:block;width:22px;height:1.5px;background:var(--stone);transition:transform .3s,opacity .3s}
+.ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0}
+.ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mob-menu{
+  display:none;position:absolute;top:100%;left:0;right:0;
+  background:rgba(11,22,35,.97);backdrop-filter:blur(16px);
+  border-top:1px solid rgba(201,168,108,.18);padding:1.4rem 1.5rem 2rem;
+}
+.mob-menu.open{display:block}
+.mob-menu ul{list-style:none;display:flex;flex-direction:column;gap:.2rem}
+.mob-menu a{
+  color:var(--stone);text-decoration:none;font-size:1rem;
+  padding:.75rem 0;display:block;
+  border-bottom:1px solid rgba(217,207,196,.08);
+  transition:color .2s;
+}
+.mob-menu a:hover{color:var(--gold)}
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .ham{display:none}
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:var(--navy);
+}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{
+  width:100%;height:100%;object-fit:cover;
+  opacity:.16;transform:scale(1.06);
+  animation:heroZoom 10s ease-out forwards;
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(13,27,42,.2) 0%,rgba(13,27,42,.82) 65%,rgba(13,27,42,1) 100%);
+}
+@keyframes heroZoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+
+/* concentric rings */
+.rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:1}
+.ring{
+  position:absolute;border-radius:50%;border:1px solid;
+  animation:ringBreath 5s ease-in-out infinite;
+}
+.ring:nth-child(1){width:min(260px,70vw);height:min(260px,70vw);border-color:rgba(201,168,108,.4);animation-delay:0s}
+.ring:nth-child(2){width:min(440px,110vw);height:min(440px,110vw);border-color:rgba(201,168,108,.2);animation-delay:.6s}
+.ring:nth-child(3){width:min(640px,155vw);height:min(640px,155vw);border-color:rgba(74,32,64,.55);animation-delay:1.2s}
+.ring:nth-child(4){width:min(860px,200vw);height:min(860px,200vw);border-color:rgba(74,32,64,.25);animation-delay:1.8s}
+@keyframes ringBreath{0%,100%{opacity:1}50%{opacity:.5}}
+
+.hero-content{
+  position:relative;z-index:2;text-align:center;
+  padding:7rem 1.5rem 5rem;max-width:820px;width:100%;
+}
+.hero-eyebrow{
+  font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--terracotta);margin-bottom:1.5rem;
+  opacity:0;animation:fadeUp .8s ease-out .3s forwards;
+}
+.hero-h1{
+  font-size:clamp(3.2rem,11vw,7rem);font-weight:300;
+  color:var(--cream);line-height:1.1;
+  opacity:0;animation:fadeUp .8s ease-out .5s forwards;
+}
+.hero-h1 strong{font-weight:600;color:var(--gold);display:block}
+.hero-ornament{opacity:0;animation:fadeUp .8s ease-out .65s forwards}
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.05rem,3vw,1.45rem);color:var(--stone-dim);
+  margin:1.1rem 0 2rem;line-height:1.65;
+  opacity:0;animation:fadeUp .8s ease-out .75s forwards;
+}
+.hero-ctas{
+  display:flex;flex-direction:column;gap:.9rem;align-items:center;
+  opacity:0;animation:fadeUp .8s ease-out .95s forwards;
+}
+@media(min-width:480px){.hero-ctas{flex-direction:row;justify-content:center}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+.scroll-hint{
+  position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:.4rem;
+  color:var(--stone-dim);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  opacity:0;animation:fadeUp 1s ease-out 1.6s forwards;
+}
+.scroll-line{
+  width:1px;height:38px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollAnim 2.2s ease-in-out infinite;
+}
+@keyframes scrollAnim{
+  0%{transform:scaleY(0);transform-origin:top}
+  49%{transform:scaleY(1);transform-origin:top}
+  50%{transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+
+/* ── TRUST BAND ── */
+.trust-band{
+  background:var(--plum);
+  border-top:1px solid rgba(201,168,108,.18);
+  border-bottom:1px solid rgba(201,168,108,.18);
+  padding:1.4rem 0;
+}
+.trust-inner{
+  display:flex;flex-direction:column;gap:1.1rem;align-items:center;text-align:center;
+}
+@media(min-width:768px){.trust-inner{flex-direction:row;justify-content:center;gap:3rem}}
+.trust-item{display:flex;align-items:center;gap:.7rem;font-size:.83rem;color:var(--stone)}
+.trust-item i{color:var(--gold);flex-shrink:0}
+
+/* ── SECTION BASE ── */
+.section{padding:5.5rem 0}
+.sec-header{text-align:center;margin-bottom:3.5rem}
+.sec-title{font-size:clamp(2rem,5vw,3.2rem);font-weight:300;color:var(--cream);line-height:1.45}
+.sec-title strong{font-weight:600;color:var(--gold)}
+.sec-desc{font-size:.95rem;color:var(--stone-dim);max-width:580px;margin:.9rem auto 0;line-height:1.85}
+
+/* ── SERVICES ── */
+.services-sec{
+  background:var(--navy-mid);padding:5.5rem 0;
+  position:relative;clip-path:polygon(0 40px,100% 0,100% calc(100% - 40px),0 100%);
+  margin:-1px 0;
+}
+.srv-grid{display:grid;grid-template-columns:1fr;gap:1.4rem}
+@media(min-width:600px){.srv-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.srv-grid{grid-template-columns:repeat(3,1fr)}}
+.srv-card{
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(201,168,108,.1);
+  border-radius:3px;padding:2rem 1.75rem;
+  position:relative;overflow:hidden;
+  transition:border-color .35s,background .35s,transform .35s,box-shadow .35s;
+}
+.srv-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .35s;
+}
+.srv-card:hover{
+  border-color:rgba(201,168,108,.28);
+  background:rgba(201,168,108,.035);
+  transform:translateY(-4px);
+  box-shadow:0 14px 42px rgba(0,0,0,.32);
+}
+.srv-card:hover::before{opacity:1}
+.srv-icon{
+  width:46px;height:46px;
+  background:rgba(74,32,64,.5);
+  border:1px solid rgba(201,168,108,.18);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.2rem;color:var(--gold);flex-shrink:0;
+}
+.srv-card h3{font-size:1.15rem;font-weight:500;color:var(--cream);margin-bottom:.65rem;line-height:1.5}
+.srv-card p{font-size:.875rem;color:var(--stone-dim);line-height:1.85}
+
+/* ── ABOUT ALTERNATING ── */
+.about-sec{background:var(--navy);padding:5.5rem 0}
+.about-pair{
+  display:grid;grid-template-columns:1fr;gap:3rem;
+  margin-bottom:5rem;align-items:center;
+}
+.about-pair:last-child{margin-bottom:0}
+@media(min-width:768px){
+  .about-pair{grid-template-columns:1fr 1fr;gap:4rem}
+  .about-pair.flip .about-txt{order:-1}
+}
+.about-imgwrap{
+  position:relative;border-radius:3px;overflow:hidden;
+}
+.about-imgwrap img{
+  width:100%;height:360px;object-fit:cover;
+  transition:transform .6s ease-out;
+}
+.about-imgwrap:hover img{transform:scale(1.04)}
+.about-imgwrap::after{
+  content:'';position:absolute;
+  top:-10px;left:-10px;right:-10px;bottom:-10px;
+  border:1px solid rgba(201,168,108,.18);
+  border-radius:3px;pointer-events:none;z-index:-1;
+}
+.about-txt h2{font-size:clamp(1.7rem,4vw,2.7rem);font-weight:300;color:var(--cream);line-height:1.45;margin-bottom:1.2rem}
+.about-txt h2 em{font-style:italic;color:var(--gold)}
+.about-txt p{font-size:.9rem;color:var(--stone-dim);line-height:1.9;margin-bottom:.9rem}
+.feat-list{list-style:none;margin-top:1.4rem;display:flex;flex-direction:column;gap:.7rem}
+.feat-list li{display:flex;align-items:flex-start;gap:.7rem;font-size:.875rem;color:var(--stone);line-height:1.75}
+.feat-list i{color:var(--terracotta);flex-shrink:0;margin-top:.18em}
+
+/* ── STATS ── */
+.stats-sec{background:var(--plum);padding:5rem 0}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+@media(min-width:768px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+.stat-card{
+  text-align:center;padding:1.75rem 1rem;
+  border:1px solid rgba(201,168,108,.14);border-radius:3px;
+  transition:border-color .3s,transform .3s;
+}
+.stat-card:hover{border-color:rgba(201,168,108,.35);transform:translateY(-3px)}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,7vw,3.8rem);font-weight:300;
+  color:var(--gold);line-height:1.05;display:block;
+}
+.stat-lbl{font-size:.78rem;color:var(--stone-dim);margin-top:.45rem;line-height:1.75}
+
+/* ── PROCESS TIMELINE ── */
+.process-sec{background:var(--navy-mid);padding:5.5rem 0}
+.timeline{
+  position:relative;max-width:820px;margin:0 auto;
+  padding:0 1.25rem;
+}
+.timeline::before{
+  content:'';position:absolute;
+  left:1.85rem;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom,transparent,var(--gold) 12%,var(--gold) 88%,transparent);
+}
+@media(min-width:768px){
+  .timeline::before{left:50%;transform:translateX(-50%)}
+}
+.t-step{position:relative;padding:0 0 3rem 4.5rem}
+@media(min-width:768px){
+  .t-step{padding:0 0 3.5rem 0;display:grid;grid-template-columns:1fr 64px 1fr;gap:1.5rem;align-items:start}
+  .t-step:nth-child(odd) .t-num{grid-column:2}
+  .t-step:nth-child(odd) .t-body{grid-column:3}
+  .t-step:nth-child(odd) .t-empty{grid-column:1}
+  .t-step:nth-child(even) .t-empty{grid-column:3}
+  .t-step:nth-child(even) .t-num{grid-column:2}
+  .t-step:nth-child(even) .t-body{grid-column:1;text-align:right}
+}
+.t-num{
+  position:absolute;left:0;top:0;
+  width:38px;height:38px;
+  background:var(--plum);border:1px solid var(--gold);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;
+  color:var(--gold);flex-shrink:0;z-index:1;
+}
+@media(min-width:768px){
+  .t-num{position:static;margin:0 auto;width:52px;height:52px;font-size:1.3rem}
+}
+.t-body h3{font-size:1.15rem;font-weight:500;color:var(--cream);margin-bottom:.5rem;line-height:1.5}
+.t-body p{font-size:.86rem;color:var(--stone-dim);line-height:1.9}
+
+/* ── PACKAGES ── */
+.pkg-sec{background:var(--navy);padding:5.5rem 0}
+.pkg-grid{display:grid;grid-template-columns:1fr;gap:1.5rem;max-width:980px;margin:0 auto}
+@media(min-width:640px){.pkg-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:920px){.pkg-grid{grid-template-columns:repeat(3,1fr)}}
+.pkg-card{
+  border:1px solid rgba(217,207,196,.13);border-radius:3px;
+  padding:2rem 1.75rem 2.5rem;display:flex;flex-direction:column;
+  background:rgba(255,255,255,.02);
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.pkg-card.star{border-color:var(--gold);background:rgba(201,168,108,.05);position:relative}
+.pkg-card.star::before{
+  content:'';position:absolute;top:-1px;left:12%;right:12%;height:3px;
+  background:var(--gold);border-radius:0 0 2px 2px;
+}
+.pkg-card:hover{transform:translateY(-6px);box-shadow:0 16px 50px rgba(0,0,0,.35)}
+.pkg-badge{
+  display:inline-block;font-size:.63rem;letter-spacing:.13em;
+  text-transform:uppercase;background:var(--gold);color:var(--navy);
+  padding:.28em .8em;border-radius:1px;margin-bottom:1.2rem;font-weight:600;
+}
+.pkg-name{
+  font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:500;
+  color:var(--cream);line-height:1.2;margin-bottom:.4rem;
+}
+.pkg-tag{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:.9rem;color:var(--stone-dim);margin-bottom:1.5rem;line-height:1.6;
+}
+.pkg-feats{list-style:none;display:flex;flex-direction:column;gap:.7rem;flex:1;margin-bottom:2rem}
+.pkg-feats li{display:flex;align-items:flex-start;gap:.65rem;font-size:.855rem;color:var(--stone);line-height:1.75}
+.pkg-feats i{color:var(--terracotta);flex-shrink:0;margin-top:.18em}
+
+/* ── TESTIMONIALS ── */
+.testi-sec{background:var(--navy-mid);padding:5.5rem 0}
+.testi-grid{display:grid;grid-template-columns:1fr;gap:1.4rem}
+@media(min-width:768px){.testi-grid{grid-template-columns:repeat(3,1fr)}}
+.testi-card{
+  background:rgba(255,255,255,.022);
+  border:1px solid rgba(74,32,64,.5);
+  border-radius:3px;padding:2rem;position:relative;
+  transition:border-color .3s,transform .3s;
+}
+.testi-card::before{
+  content:'\201C';font-family:'Cormorant Garamond',serif;
+  font-size:5.5rem;line-height:1;color:rgba(201,168,108,.12);
+  position:absolute;top:.3rem;left:1.2rem;pointer-events:none;
+}
+.testi-card:hover{border-color:rgba(201,168,108,.22);transform:translateY(-4px)}
+.testi-txt{
+  font-size:.875rem;color:var(--stone);line-height:1.9;
+  margin-bottom:1.4rem;position:relative;z-index:1;padding-top:.9rem;
+}
+.testi-author{
+  display:flex;align-items:center;gap:.9rem;
+  border-top:1px solid rgba(217,207,196,.09);padding-top:.9rem;
+}
+.testi-avatar{
+  width:44px;height:44px;border-radius:50%;object-fit:cover;
+  border:1px solid rgba(201,168,108,.28);flex-shrink:0;
+}
+.testi-name{font-size:.875rem;font-weight:600;color:var(--cream);line-height:1.35}
+.testi-role{font-size:.75rem;color:var(--terracotta);line-height:1.5;margin-top:.1rem}
+
+/* ── CTA BANNER ── */
+.cta-banner{
+  background:linear-gradient(135deg,var(--plum) 0%,#2A1030 50%,var(--navy) 100%);
+  padding:5.5rem 0;text-align:center;position:relative;overflow:hidden;
+}
+.cta-banner::before{
+  content:'';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:min(650px,160vw);height:min(650px,160vw);
+  border-radius:50%;border:1px solid rgba(201,168,108,.07);pointer-events:none;
+}
+.cta-banner::after{
+  content:'';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:min(950px,230vw);height:min(950px,230vw);
+  border-radius:50%;border:1px solid rgba(201,168,108,.04);pointer-events:none;
+}
+.cta-banner h2{
+  font-size:clamp(2rem,5vw,3.4rem);font-weight:300;
+  color:var(--cream);line-height:1.45;margin-bottom:1rem;position:relative;z-index:1;
+}
+.cta-banner h2 em{font-style:italic;color:var(--gold)}
+.cta-banner p{
+  font-size:.95rem;color:var(--stone-dim);max-width:500px;
+  margin:0 auto 2rem;line-height:1.85;position:relative;z-index:1;
+}
+
+/* ── CONTACT ── */
+.contact-sec{background:var(--navy);padding:5.5rem 0}
+.contact-wrap{display:grid;grid-template-columns:1fr;gap:3rem;max-width:980px;margin:0 auto}
+@media(min-width:768px){.contact-wrap{grid-template-columns:1fr 1.35fr;gap:4rem}}
+.contact-info h2{
+  font-size:clamp(1.9rem,5vw,2.9rem);font-weight:300;
+  color:var(--cream);line-height:1.4;margin-bottom:1.5rem;
+}
+.contact-info h2 em{font-style:italic;color:var(--gold)}
+.cinfo{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.2rem;color:var(--stone);font-size:.9rem;line-height:1.8}
+.cinfo i{color:var(--terracotta);flex-shrink:0;margin-top:.18em}
+.cinfo-label{font-weight:500;color:var(--cream)}
+.cinfo-sub{font-size:.78rem;color:var(--stone-dim)}
+.c-form{display:flex;flex-direction:column;gap:.95rem}
+.form-row{display:grid;grid-template-columns:1fr;gap:.95rem}
+@media(min-width:480px){.form-row{grid-template-columns:1fr 1fr}}
+.fg{display:flex;flex-direction:column;gap:.35rem}
+.fg label{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--stone-dim)}
+.fg input,.fg textarea,.fg select{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(217,207,196,.16);border-radius:2px;
+  padding:.82em 1em;color:var(--stone);
+  font-family:'IBM Plex Sans Thai',sans-serif;
+  font-size:.875rem;line-height:1.8;outline:none;
+  transition:border-color .25s;min-height:44px;width:100%;
+}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:rgba(201,168,108,.48)}
+.fg textarea{resize:vertical;min-height:108px}
+.fg select option{background:var(--navy-mid);color:var(--stone)}
+
+/* ── DIVIDER ── */
+.plum-band{height:3px;background:linear-gradient(to right,var(--plum),var(--gold),var(--plum))}
+
+/* ── FOOTER ── */
+.footer{background:#07111A;border-top:1px solid rgba(74,32,64,.45);padding:3.5rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:2.4rem;margin-bottom:2.8rem}
+@media(min-width:640px){.footer-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.footer-grid{grid-template-columns:2fr 1fr 1fr 1.2fr}}
+.f-brand-sub{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--terracotta);margin-top:.2rem}
+.f-brand p{font-size:.83rem;color:var(--stone-dim);line-height:1.9;margin-top:.9rem;max-width:250px}
+.f-nav h4{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--terracotta);margin-bottom:.95rem}
+.f-nav ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.f-nav a{color:var(--stone-dim);text-decoration:none;font-size:.845rem;transition:color .2s;padding:.18rem 0;display:inline-block;line-height:1.7}
+.f-nav a:hover{color:var(--gold)}
+.footer-bottom{
+  border-top:1px solid rgba(217,207,196,.07);padding-top:1.4rem;
+  display:flex;flex-direction:column;gap:.6rem;align-items:center;text-align:center;
+}
+@media(min-width:640px){.footer-bottom{flex-direction:row;justify-content:space-between;text-align:left}}
+.footer-bottom p{font-size:.75rem;color:var(--stone-dim);line-height:1.7}
+
+/* ── THAI TYPOGRAPHY CORRECTIONS ── */
+html[lang="th"] .f-brand-sub,
+html[lang="th"] .f-nav h4,
+html[lang="th"] .pkg-badge,
+html[lang="th"] .fg label,
+html[lang="th"] .scroll-hint span,
+html[lang="th"] .hero-eyebrow{letter-spacing:0;text-transform:none}
+html[lang="th"] .sec-title{line-height:1.6}
+html[lang="th"] .hero-h1{line-height:1.35}
+html[lang="th"] .pkg-name{line-height:1.5}
+html[lang="th"] .about-txt h2{line-height:1.55}
+html[lang="th"] .contact-info{line-height:1.55}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-main">SILVERCARE</span>
+      <span class="nav-logo-sub" data-lang-th="บริการพาไปโรงพยาบาลพรีเมียม" data-lang-en="Premium Medical Escort">บริการพาไปโรงพยาบาลพรีเมียม</span>
+    </a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#services" data-lang-th="บริการ" data-lang-en="Services">บริการ</a></li>
+        <li><a href="#about" data-lang-th="เกี่ยวกับเรา" data-lang-en="About">เกี่ยวกับเรา</a></li>
+        <li><a href="#packages" data-lang-th="แพ็กเกจ" data-lang-en="Packages">แพ็กเกจ</a></li>
+        <li><a href="#testimonials" data-lang-th="รีวิว" data-lang-en="Reviews">รีวิว</a></li>
+        <li><a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a></li>
+      </ul>
+      <div class="lang-sw" aria-label="Switch language">
+        <i data-lucide="globe" width="14" height="14"></i>
+        <span class="lang-sw__label">TH</span>
+      </div>
+      <button class="ham" id="ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <ul>
+      <li><a href="#services" data-lang-th="บริการ" data-lang-en="Services">บริการ</a></li>
+      <li><a href="#about" data-lang-th="เกี่ยวกับเรา" data-lang-en="About">เกี่ยวกับเรา</a></li>
+      <li><a href="#packages" data-lang-th="แพ็กเกจ" data-lang-en="Packages">แพ็กเกจ</a></li>
+      <li><a href="#testimonials" data-lang-th="รีวิว" data-lang-en="Reviews">รีวิว</a></li>
+      <li><a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1572272294800-a99116ad349c?w=1600&h=900&fit=crop" alt="Bangkok cityscape at night">
+  </div>
+  <div class="rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow track-wide" data-lang-th="บริการพาไปโรงพยาบาลระดับพรีเมียม · กรุงเทพมหานคร" data-lang-en="Premium Medical Escort · Bangkok, Thailand">บริการพาไปโรงพยาบาลระดับพรีเมียม · กรุงเทพมหานคร</p>
+    <h1 class="hero-h1">
+      <span data-lang-th="ซิลเวอร์" data-lang-en="SILVER">ซิลเวอร์</span><strong data-lang-th="แคร์" data-lang-en="CARE">แคร์</strong>
+    </h1>
+    <div class="ornament hero-ornament"><div class="ornament-gem"></div></div>
+    <p class="hero-sub" data-lang-th="มากกว่าการเดินทาง — คือผู้ดูแลที่คุณไว้วางใจ" data-lang-en="More than a journey — a companion you can truly trust">มากกว่าการเดินทาง — คือผู้ดูแลที่คุณไว้วางใจ</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-gold">
+        <i data-lucide="phone" width="16" height="16"></i>
+        <span data-lang-th="นัดหมายบริการ" data-lang-en="Book a Service">นัดหมายบริการ</span>
+      </a>
+      <a href="#services" class="btn-ghost">
+        <span data-lang-th="ดูบริการทั้งหมด" data-lang-en="Explore Services">ดูบริการทั้งหมด</span>
+        <i data-lucide="arrow-down" width="16" height="16"></i>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span data-lang-th="เลื่อนดู" data-lang-en="SCROLL">เลื่อนดู</span>
+  </div>
+</section>
+
+<!-- ═══════════════ TRUST BAND ═══════════════ -->
+<div class="trust-band">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="trust-item reveal">
+        <i data-lucide="shield-check" width="18" height="18"></i>
+        <span data-lang-th="ดูแลโดยทีมพยาบาลและผู้เชี่ยวชาญ" data-lang-en="Supervised by certified medical professionals">ดูแลโดยทีมพยาบาลและผู้เชี่ยวชาญ</span>
+      </div>
+      <div class="trust-item reveal d1">
+        <i data-lucide="clock" width="18" height="18"></i>
+        <span data-lang-th="บริการตลอด 24 ชั่วโมง ทุกวัน" data-lang-en="24/7 service, every day">บริการตลอด 24 ชั่วโมง ทุกวัน</span>
+      </div>
+      <div class="trust-item reveal d2">
+        <i data-lucide="award" width="18" height="18"></i>
+        <span data-lang-th="พันธมิตรกับโรงพยาบาลชั้นนำกว่า 40 แห่ง" data-lang-en="Partner with 40+ leading hospitals">พันธมิตรกับโรงพยาบาลชั้นนำกว่า 40 แห่ง</span>
+      </div>
+      <div class="trust-item reveal d3">
+        <i data-lucide="languages" width="18" height="18"></i>
+        <span data-lang-th="รองรับ 4 ภาษา: ไทย อังกฤษ จีน และญี่ปุ่น" data-lang-en="4 languages: Thai, English, Chinese, Japanese">รองรับ 4 ภาษา: ไทย อังกฤษ จีน และญี่ปุ่น</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section class="services-sec" id="services">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="eyebrow" data-lang-th="บริการของเรา" data-lang-en="Our Services">บริการของเรา</span>
+      <h2 class="sec-title">
+        <span data-lang-th="ครบทุกความต้องการ" data-lang-en="Complete Care">ครบทุกความต้องการ</span><br>
+        <strong data-lang-th="ตลอดเส้นทางสุขภาพ" data-lang-en="For Every Step of Your Journey">ตลอดเส้นทางสุขภาพ</strong>
+      </h2>
+      <div class="ornament"><div class="ornament-gem"></div></div>
+      <p class="sec-desc" data-lang-th="บริการที่ออกแบบมาเพื่อผู้สูงอายุ ผู้ป่วย และชาวต่างชาติ ด้วยความใส่ใจในทุกรายละเอียด" data-lang-en="Services designed for the elderly, patients, and foreigners — crafted with care at every detail">บริการที่ออกแบบมาเพื่อผู้สูงอายุ ผู้ป่วย และชาวต่างชาติ ด้วยความใส่ใจในทุกรายละเอียด</p>
+    </div>
+    <div class="srv-grid">
+
+      <div class="srv-card reveal d1">
+        <div class="srv-icon"><i data-lucide="car" width="22" height="22"></i></div>
+        <h3 data-lang-th="รถ VIP พรีเมียม" data-lang-en="VIP Premium Vehicle">รถ VIP พรีเมียม</h3>
+        <p data-lang-th="รถหรูพร้อมคนขับมืออาชีพ สะดวกสบาย ปลอดภัย และสงวนความเป็นส่วนตัวทุกเส้นทาง" data-lang-en="Luxury vehicles with professional drivers — comfortable, safe, and fully private on every route.">รถหรูพร้อมคนขับมืออาชีพ สะดวกสบาย ปลอดภัย และสงวนความเป็นส่วนตัวทุกเส้นทาง</p>
+      </div>
+
+      <div class="srv-card reveal d2">
+        <div class="srv-icon"><i data-lucide="user-check" width="22" height="22"></i></div>
+        <h3 data-lang-th="ผู้ดูแลประจำตัว" data-lang-en="Personal Medical Escort">ผู้ดูแลประจำตัว</h3>
+        <p data-lang-th="ผู้ดูแลเฉพาะบุคคลร่วมเดินทางทุกขั้นตอน ตั้งแต่บ้านจนถึงโรงพยาบาลและกลับบ้านอย่างปลอดภัย" data-lang-en="A dedicated escort accompanies you every step — from home to hospital and safely back, with full support.">ผู้ดูแลเฉพาะบุคคลร่วมเดินทางทุกขั้นตอน ตั้งแต่บ้านจนถึงโรงพยาบาลและกลับบ้านอย่างปลอดภัย</p>
+      </div>
+
+      <div class="srv-card reveal d3">
+        <div class="srv-icon"><i data-lucide="calendar-check" width="22" height="22"></i></div>
+        <h3 data-lang-th="ประสานงานโรงพยาบาล" data-lang-en="Hospital Coordination">ประสานงานโรงพยาบาล</h3>
+        <p data-lang-th="จัดการนัดหมาย ประสานแพทย์ จัดเตรียมเอกสารและยา รวมถึงบริการล่ามทางการแพทย์" data-lang-en="We handle appointments, doctor liaisons, documents, medications, and medical interpretation.">จัดการนัดหมาย ประสานแพทย์ จัดเตรียมเอกสารและยา รวมถึงบริการล่ามทางการแพทย์</p>
+      </div>
+
+      <div class="srv-card reveal d1">
+        <div class="srv-icon"><i data-lucide="heart-pulse" width="22" height="22"></i></div>
+        <h3 data-lang-th="ดูแลผู้สูงอายุ" data-lang-en="Elderly Care Escort">ดูแลผู้สูงอายุ</h3>
+        <p data-lang-th="บริการพิเศษสำหรับผู้สูงวัยที่ต้องการความใส่ใจเป็นพิเศษ ด้วยความอ่อนโยนและความเคารพ" data-lang-en="Specialized care for seniors who need extra attention — delivered with gentleness and respect.">บริการพิเศษสำหรับผู้สูงวัยที่ต้องการความใส่ใจเป็นพิเศษ ด้วยความอ่อนโยนและความเคารพ</p>
+      </div>
+
+      <div class="srv-card reveal d2">
+        <div class="srv-icon"><i data-lucide="siren" width="22" height="22"></i></div>
+        <h3 data-lang-th="ประสานรถพยาบาล" data-lang-en="Ambulance Coordination">ประสานรถพยาบาล</h3>
+        <p data-lang-th="ประสานงานรถพยาบาลทั้งกรณีฉุกเฉินและไม่เร่งด่วน พร้อมติดตามสถานการณ์แบบเรียลไทม์" data-lang-en="Emergency and non-emergency ambulance coordination with real-time situation tracking.">ประสานงานรถพยาบาลทั้งกรณีฉุกเฉินและไม่เร่งด่วน พร้อมติดตามสถานการณ์แบบเรียลไทม์</p>
+      </div>
+
+      <div class="srv-card reveal d3">
+        <div class="srv-icon"><i data-lucide="globe" width="22" height="22"></i></div>
+        <h3 data-lang-th="บริการสำหรับชาวต่างชาติ" data-lang-en="Foreigner Medical Support">บริการสำหรับชาวต่างชาติ</h3>
+        <p data-lang-th="บริการครบวงจรสำหรับผู้ที่ไม่คุ้นเคยกับระบบสาธารณสุขไทย พร้อมล่ามและการประสานงานประกัน" data-lang-en="Full support for those unfamiliar with Thai healthcare — interpreters, insurance liaison, and guidance.">บริการครบวงจรสำหรับผู้ที่ไม่คุ้นเคยกับระบบสาธารณสุขไทย พร้อมล่ามและการประสานงานประกัน</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section class="about-sec" id="about">
+  <div class="container">
+
+    <div class="about-pair reveal">
+      <div class="about-imgwrap">
+        <img src="https://images.unsplash.com/photo-1764090317565-46fe49fe2a31?w=720&h=500&fit=crop" alt="Luxury vehicle for medical escort service">
+      </div>
+      <div class="about-txt">
+        <span class="eyebrow" data-lang-th="ปรัชญาของเรา" data-lang-en="Our Philosophy">ปรัชญาของเรา</span>
+        <h2>
+          <span data-lang-th="เราไม่ได้แค่พาไป — " data-lang-en="We don't just drive — ">เราไม่ได้แค่พาไป — </span>
+          <em data-lang-th="เราดูแลทุกก้าว" data-lang-en="we care for every step">เราดูแลทุกก้าว</em>
+        </h2>
+        <p data-lang-th="ซิลเวอร์แคร์เกิดขึ้นจากความเชื่อที่ว่าการเดินทางไปโรงพยาบาลไม่ควรเป็นภาระหนักสำหรับครอบครัว เราออกแบบบริการที่ผสมผสานความหรูหราของรถ VIP เข้ากับความอบอุ่นของผู้ดูแลที่เชี่ยวชาญ" data-lang-en="SilverCare was born from the belief that a hospital journey should never be a burden. We blend the comfort of a VIP vehicle with the warmth of a skilled, compassionate escort.">ซิลเวอร์แคร์เกิดขึ้นจากความเชื่อที่ว่าการเดินทางไปโรงพยาบาลไม่ควรเป็นภาระหนักสำหรับครอบครัว เราออกแบบบริการที่ผสมผสานความหรูหราของรถ VIP เข้ากับความอบอุ่นของผู้ดูแลที่เชี่ยวชาญ</p>
+        <ul class="feat-list">
+          <li>
+            <i data-lucide="check-circle" width="17" height="17"></i>
+            <span data-lang-th="ผู้ดูแลผ่านการอบรมด้านการแพทย์และการปฐมพยาบาล" data-lang-en="Escorts trained in first aid and medical support">ผู้ดูแลผ่านการอบรมด้านการแพทย์และการปฐมพยาบาล</span>
+          </li>
+          <li>
+            <i data-lucide="check-circle" width="17" height="17"></i>
+            <span data-lang-th="รายงานสถานการณ์แบบเรียลไทม์ให้ครอบครัวทราบ" data-lang-en="Real-time situation updates delivered to the family">รายงานสถานการณ์แบบเรียลไทม์ให้ครอบครัวทราบ</span>
+          </li>
+          <li>
+            <i data-lucide="check-circle" width="17" height="17"></i>
+            <span data-lang-th="ยานพาหนะระดับพรีเมียมพร้อมอุปกรณ์ทางการแพทย์เบื้องต้น" data-lang-en="Premium vehicles equipped with basic medical supplies">ยานพาหนะระดับพรีเมียมพร้อมอุปกรณ์ทางการแพทย์เบื้องต้น</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="about-pair flip reveal">
+      <div class="about-txt">
+        <span class="eyebrow" data-lang-th="ความแตกต่างของซิลเวอร์แคร์" data-lang-en="The SilverCare Difference">ความแตกต่างของซิลเวอร์แคร์</span>
+        <h2>
+          <em data-lang-th="ความไว้วางใจ" data-lang-en="Trust">ความไว้วางใจ</em>
+          <span data-lang-th=" สร้างจากทุกรายละเอียด" data-lang-en=" built from every detail"> สร้างจากทุกรายละเอียด</span>
+        </h2>
+        <p data-lang-th="เราเข้าใจว่าการส่งคนที่คุณรักไปโรงพยาบาลต้องการความเชื่อมั่น ซิลเวอร์แคร์จึงคัดสรรบุคลากรอย่างเข้มงวด ฝึกอบรมอย่างต่อเนื่อง และสร้างมาตรฐานการดูแลที่สม่ำเสมอทุกครั้ง" data-lang-en="Entrusting a loved one requires complete confidence. SilverCare rigorously selects and continuously trains our team to deliver consistent, unwavering standards of care every single time.">เราเข้าใจว่าการส่งคนที่คุณรักไปโรงพยาบาลต้องการความเชื่อมั่น ซิลเวอร์แคร์จึงคัดสรรบุคลากรอย่างเข้มงวด ฝึกอบรมอย่างต่อเนื่อง และสร้างมาตรฐานการดูแลที่สม่ำเสมอทุกครั้ง</p>
+        <ul class="feat-list">
+          <li>
+            <i data-lucide="check-circle" width="17" height="17"></i>
+            <span data-lang-th="ตรวจสอบประวัติบุคลากรทุกคนก่อนรับเข้าทำงาน" data-lang-en="All staff background-checked before employment">ตรวจสอบประวัติบุคลากรทุกคนก่อนรับเข้าทำงาน</span>
+          </li>
+          <li>
+            <i data-lucide="check-circle" width="17" height="17"></i>
+            <span data-lang-th="มีประกันภัยคุ้มครองครบวงจรสำหรับผู้ใช้บริการ" data-lang-en="Full liability insurance coverage for all clients">มีประกันภัยคุ้มครองครบวงจรสำหรับผู้ใช้บริการ</span>
+          </li>
+          <li>
+            <i data-lucide="check-circle" width="17" height="17"></i>
+            <span data-lang-th="ติดตามอาการและนัดหมายครั้งถัดไปหลังการพบแพทย์" data-lang-en="Post-care follow-up: symptom monitoring and next-appointment scheduling">ติดตามอาการและนัดหมายครั้งถัดไปหลังการพบแพทย์</span>
+          </li>
+        </ul>
+      </div>
+      <div class="about-imgwrap">
+        <img src="https://images.unsplash.com/photo-1742436707321-33fed05590bb?w=720&h=500&fit=crop" alt="Professional medical caregiver">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ STATS ═══════════════ -->
+<div class="plum-band"></div>
+<section class="stats-sec">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <span class="stat-num">5,000+</span>
+        <p class="stat-lbl" data-lang-th="ผู้ใช้บริการที่ไว้วางใจ" data-lang-en="Trusted clients served">ผู้ใช้บริการที่ไว้วางใจ</p>
+      </div>
+      <div class="stat-card reveal d1">
+        <span class="stat-num">40+</span>
+        <p class="stat-lbl" data-lang-th="โรงพยาบาลพันธมิตร" data-lang-en="Partner hospitals">โรงพยาบาลพันธมิตร</p>
+      </div>
+      <div class="stat-card reveal d2">
+        <span class="stat-num">98%</span>
+        <p class="stat-lbl" data-lang-th="ความพึงพอใจของลูกค้า" data-lang-en="Client satisfaction rate">ความพึงพอใจของลูกค้า</p>
+      </div>
+      <div class="stat-card reveal d3">
+        <span class="stat-num">24/7</span>
+        <p class="stat-lbl" data-lang-th="พร้อมให้บริการตลอดเวลา" data-lang-en="Always available">พร้อมให้บริการตลอดเวลา</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="plum-band"></div>
+
+<!-- ═══════════════ PROCESS ═══════════════ -->
+<section class="process-sec" id="process">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="eyebrow" data-lang-th="ขั้นตอนการใช้บริการ" data-lang-en="How It Works">ขั้นตอนการใช้บริการ</span>
+      <h2 class="sec-title">
+        <span data-lang-th="ง่าย สงบ และปลอดภัย" data-lang-en="Simple, Calm, and Safe">ง่าย สงบ และปลอดภัย</span><br>
+        <strong data-lang-th="ในทุกขั้นตอน" data-lang-en="Every Step of the Way">ในทุกขั้นตอน</strong>
+      </h2>
+      <div class="ornament"><div class="ornament-gem"></div></div>
+    </div>
+    <div class="timeline">
+
+      <div class="t-step reveal">
+        <div class="t-num">01</div>
+        <div class="t-empty"></div>
+        <div class="t-body">
+          <h3 data-lang-th="ติดต่อและแจ้งความต้องการ" data-lang-en="Contact &amp; Consultation">ติดต่อและแจ้งความต้องการ</h3>
+          <p data-lang-th="โทรหาเราหรือส่งข้อความผ่านช่องทางที่สะดวก แจ้งวันเวลา สถานที่ และความต้องการพิเศษ เราจะดูแลทุกอย่าง" data-lang-en="Call or message us through your preferred channel. Share the date, location, and any special needs — we take care of everything from there.">โทรหาเราหรือส่งข้อความผ่านช่องทางที่สะดวก แจ้งวันเวลา สถานที่ และความต้องการพิเศษ เราจะดูแลทุกอย่าง</p>
+        </div>
+      </div>
+
+      <div class="t-step reveal d1">
+        <div class="t-num">02</div>
+        <div class="t-empty"></div>
+        <div class="t-body">
+          <h3 data-lang-th="จัดทีมผู้ดูแลที่เหมาะสม" data-lang-en="Match Your Care Team">จัดทีมผู้ดูแลที่เหมาะสม</h3>
+          <p data-lang-th="เราคัดเลือกผู้ดูแลที่เชี่ยวชาญตรงกับความต้องการ พร้อมยานพาหนะที่เหมาะสมกับสภาพของผู้ป่วย" data-lang-en="We match you with a specialist escort suited to your needs, and the appropriate vehicle for your condition.">เราคัดเลือกผู้ดูแลที่เชี่ยวชาญตรงกับความต้องการ พร้อมยานพาหนะที่เหมาะสมกับสภาพของผู้ป่วย</p>
+        </div>
+      </div>
+
+      <div class="t-step reveal d2">
+        <div class="t-num">03</div>
+        <div class="t-empty"></div>
+        <div class="t-body">
+          <h3 data-lang-th="รับและพาไปโรงพยาบาล" data-lang-en="Pickup &amp; Medical Journey">รับและพาไปโรงพยาบาล</h3>
+          <p data-lang-th="ผู้ดูแลถึงบ้านตรงเวลา ดูแลระหว่างรอพบแพทย์ ช่วยประสานงานทุกขั้นตอนในโรงพยาบาล" data-lang-en="Your escort arrives on time, accompanies you throughout the visit, and coordinates with hospital staff at every step.">ผู้ดูแลถึงบ้านตรงเวลา ดูแลระหว่างรอพบแพทย์ ช่วยประสานงานทุกขั้นตอนในโรงพยาบาล</p>
+        </div>
+      </div>
+
+      <div class="t-step reveal d3">
+        <div class="t-num">04</div>
+        <div class="t-empty"></div>
+        <div class="t-body">
+          <h3 data-lang-th="ส่งกลับบ้านและติดตามผล" data-lang-en="Safe Return &amp; Follow-Up">ส่งกลับบ้านและติดตามผล</h3>
+          <p data-lang-th="พาส่งกลับบ้านอย่างปลอดภัย รายงานสรุปให้ครอบครัว และติดตามอาการหลังการพบแพทย์" data-lang-en="Safe escort home, a full report to the family, and post-appointment follow-up to ensure recovery.">พาส่งกลับบ้านอย่างปลอดภัย รายงานสรุปให้ครอบครัว และติดตามอาการหลังการพบแพทย์</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PACKAGES ═══════════════ -->
+<section class="pkg-sec" id="packages">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="eyebrow" data-lang-th="แพ็กเกจบริการ" data-lang-en="Service Packages">แพ็กเกจบริการ</span>
+      <h2 class="sec-title">
+        <span data-lang-th="เลือกระดับการดูแล" data-lang-en="Choose the Level of Care">เลือกระดับการดูแล</span><br>
+        <strong data-lang-th="ที่เหมาะกับคุณ" data-lang-en="That Fits You Best">ที่เหมาะกับคุณ</strong>
+      </h2>
+      <div class="ornament"><div class="ornament-gem"></div></div>
+      <p class="sec-desc" data-lang-th="แพ็กเกจที่ออกแบบมาเพื่อตอบโจทย์ทุกความต้องการ ตั้งแต่การพบแพทย์ทั่วไปจนถึงการดูแลระยะยาว" data-lang-en="Packages designed for every need — from routine visits to long-term care arrangements.">แพ็กเกจที่ออกแบบมาเพื่อตอบโจทย์ทุกความต้องการ ตั้งแต่การพบแพทย์ทั่วไปจนถึงการดูแลระยะยาว</p>
+    </div>
+    <div class="pkg-grid">
+
+      <div class="pkg-card reveal d1">
+        <div class="pkg-name" data-lang-th="เอสเซ็นเชียล" data-lang-en="Essential">เอสเซ็นเชียล</div>
+        <div class="pkg-tag" data-lang-th="สำหรับการนัดพบแพทย์ทั่วไป" data-lang-en="For routine medical appointments">สำหรับการนัดพบแพทย์ทั่วไป</div>
+        <ul class="pkg-feats">
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="รถ VIP รับส่งถึงบ้าน" data-lang-en="VIP door-to-door transport">รถ VIP รับส่งถึงบ้าน</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ผู้ดูแล 1 คน ตลอดการเดินทาง" data-lang-en="1 escort for the full journey">ผู้ดูแล 1 คน ตลอดการเดินทาง</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ประสานงานนัดหมายแพทย์" data-lang-en="Doctor appointment coordination">ประสานงานนัดหมายแพทย์</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="รายงานสรุปให้ครอบครัว" data-lang-en="Summary report to family">รายงานสรุปให้ครอบครัว</span></li>
+        </ul>
+        <a href="#contact" class="btn-ghost" style="width:100%;justify-content:center;">
+          <span data-lang-th="สอบถามราคา" data-lang-en="Enquire Now">สอบถามราคา</span>
+        </a>
+      </div>
+
+      <div class="pkg-card star reveal d2">
+        <div class="pkg-badge" data-lang-th="แนะนำ" data-lang-en="Recommended">แนะนำ</div>
+        <div class="pkg-name" data-lang-th="พรีเมียม" data-lang-en="Premium">พรีเมียม</div>
+        <div class="pkg-tag" data-lang-th="สำหรับผู้ที่ต้องการการดูแลอย่างเต็มรูปแบบ" data-lang-en="For those who need comprehensive support">สำหรับผู้ที่ต้องการการดูแลอย่างเต็มรูปแบบ</div>
+        <ul class="pkg-feats">
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ครอบคลุมทุกบริการ Essential" data-lang-en="All Essential services included">ครอบคลุมทุกบริการ Essential</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ผู้ดูแลพยาบาลวิชาชีพ" data-lang-en="Registered nurse escort">ผู้ดูแลพยาบาลวิชาชีพ</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ล่ามภาษา (EN / CN / JP)" data-lang-en="Language interpreter (EN/CN/JP)">ล่ามภาษา (EN / CN / JP)</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ติดตามอาการหลัง 48 ชม." data-lang-en="48-hour post-visit follow-up">ติดตามอาการหลัง 48 ชม.</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ช่อง Line ส่วนตัวสำหรับครอบครัว" data-lang-en="Private family Line channel">ช่อง Line ส่วนตัวสำหรับครอบครัว</span></li>
+        </ul>
+        <a href="#contact" class="btn-gold" style="width:100%;justify-content:center;">
+          <span data-lang-th="สอบถามราคา" data-lang-en="Enquire Now">สอบถามราคา</span>
+        </a>
+      </div>
+
+      <div class="pkg-card reveal d3">
+        <div class="pkg-name" data-lang-th="เฮอริเทจ" data-lang-en="Heritage">เฮอริเทจ</div>
+        <div class="pkg-tag" data-lang-th="สำหรับการดูแลระยะยาวและครอบครัว" data-lang-en="Long-term &amp; family care">สำหรับการดูแลระยะยาวและครอบครัว</div>
+        <ul class="pkg-feats">
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ครอบคลุมทุกบริการ Premium" data-lang-en="All Premium services included">ครอบคลุมทุกบริการ Premium</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ผู้ดูแลประจำตัวที่คุ้นเคยกับผู้ป่วย" data-lang-en="Dedicated familiar escort assigned">ผู้ดูแลประจำตัวที่คุ้นเคยกับผู้ป่วย</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="รายงานสุขภาพรายเดือน" data-lang-en="Monthly health summary reports">รายงานสุขภาพรายเดือน</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="ประสานงานประกันสุขภาพและเอกสาร" data-lang-en="Insurance &amp; medical document management">ประสานงานประกันสุขภาพและเอกสาร</span></li>
+          <li><i data-lucide="check" width="15" height="15"></i><span data-lang-th="สิทธิ์เรียกใช้งานฉุกเฉิน 24 ชม." data-lang-en="24/7 emergency priority access">สิทธิ์เรียกใช้งานฉุกเฉิน 24 ชม.</span></li>
+        </ul>
+        <a href="#contact" class="btn-ghost" style="width:100%;justify-content:center;">
+          <span data-lang-th="สอบถามราคา" data-lang-en="Enquire Now">สอบถามราคา</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+<section class="testi-sec" id="testimonials">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="eyebrow" data-lang-th="เสียงจากผู้ใช้บริการ" data-lang-en="Client Testimonials">เสียงจากผู้ใช้บริการ</span>
+      <h2 class="sec-title">
+        <span data-lang-th="ความเชื่อมั่นที่สร้างขึ้น" data-lang-en="Trust Built From">ความเชื่อมั่นที่สร้างขึ้น</span><br>
+        <strong data-lang-th="จากประสบการณ์จริง" data-lang-en="Real Experiences">จากประสบการณ์จริง</strong>
+      </h2>
+      <div class="ornament"><div class="ornament-gem"></div></div>
+    </div>
+    <div class="testi-grid">
+
+      <div class="testi-card reveal d1">
+        <p class="testi-txt" data-lang-th="ซิลเวอร์แคร์ดูแลคุณแม่เหมือนลูกหลาน ผู้ดูแลรู้จักชื่อหมอ รู้ว่าต้องไปห้องไหน และพาทุกอย่างเรียบร้อยโดยที่เราไม่ต้องกังวลเลย ดีใจมากที่ได้รู้จักบริการนี้" data-lang-en="SilverCare treated my mother like family. The escort knew her doctor's name, knew which ward to go to, and handled everything smoothly. We didn't have to worry about a thing.">ซิลเวอร์แคร์ดูแลคุณแม่เหมือนลูกหลาน ผู้ดูแลรู้จักชื่อหมอ รู้ว่าต้องไปห้องไหน และพาทุกอย่างเรียบร้อยโดยที่เราไม่ต้องกังวลเลย ดีใจมากที่ได้รู้จักบริการนี้</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1558895562-950e5f359236?w=88&h=88&fit=crop" alt="Client testimonial" class="testi-avatar">
+          <div>
+            <div class="testi-name">คุณสุภาวดี ทรัพย์มณี</div>
+            <div class="testi-role" data-lang-th="ลูกสาวของผู้รับบริการ · กรุงเทพฯ" data-lang-en="Client's daughter · Bangkok">ลูกสาวของผู้รับบริการ · กรุงเทพฯ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d2">
+        <p class="testi-txt" data-lang-th="ในฐานะชาวต่างชาติที่ไม่รู้ภาษาไทย ซิลเวอร์แคร์ทำให้ทุกอย่างง่ายมาก มีล่ามที่เชี่ยวชาญ รถสะอาดหรูหรา ทีมงานมืออาชีพจนทำให้ผมสบายใจตลอดเวลา" data-lang-en="As a foreigner with no Thai, SilverCare made everything seamless. A skilled interpreter, an immaculate car, and a truly professional team. I felt completely at ease throughout.">ในฐานะชาวต่างชาติที่ไม่รู้ภาษาไทย ซิลเวอร์แคร์ทำให้ทุกอย่างง่ายมาก มีล่ามที่เชี่ยวชาญ รถสะอาดหรูหรา ทีมงานมืออาชีพจนทำให้ผมสบายใจตลอดเวลา</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1620127968942-138b1e5ed012?w=88&h=88&fit=crop" alt="Client testimonial" class="testi-avatar">
+          <div>
+            <div class="testi-name">Mr. James Hartwell</div>
+            <div class="testi-role" data-lang-th="ผู้รับบริการ · สหราชอาณาจักร" data-lang-en="Client · United Kingdom">ผู้รับบริการ · สหราชอาณาจักร</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d3">
+        <p class="testi-txt" data-lang-th="คุณพ่อต้องไปโรงพยาบาลบ่อย ซิลเวอร์แคร์จัดผู้ดูแลคนเดิมทุกครั้ง ทำให้คุณพ่อไว้วางใจและไม่ต้องอธิบายอาการซ้ำๆ บริการนี้เปลี่ยนชีวิตครอบครัวเราอย่างแท้จริง" data-lang-en="My father needs frequent hospital visits. SilverCare sends the same escort every time — he trusts them and never has to repeat his history. This service has truly changed our family's life.">คุณพ่อต้องไปโรงพยาบาลบ่อย ซิลเวอร์แคร์จัดผู้ดูแลคนเดิมทุกครั้ง ทำให้คุณพ่อไว้วางใจและไม่ต้องอธิบายอาการซ้ำๆ บริการนี้เปลี่ยนชีวิตครอบครัวเราอย่างแท้จริง</p>
+        <div class="testi-author">
+          <img src="https://images.unsplash.com/photo-1672683155509-150cd982dbb8?w=88&h=88&fit=crop" alt="Client testimonial" class="testi-avatar">
+          <div>
+            <div class="testi-name">คุณวิชัย อรุณแสงธรรม</div>
+            <div class="testi-role" data-lang-th="ลูกชายของผู้รับบริการ · เชียงใหม่" data-lang-en="Client's son · Chiang Mai">ลูกชายของผู้รับบริการ · เชียงใหม่</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA BANNER ═══════════════ -->
+<div class="cta-banner">
+  <div class="container">
+    <h2 class="reveal">
+      <em data-lang-th="ให้เราดูแลคนที่คุณรัก" data-lang-en="Let us care for your loved one">ให้เราดูแลคนที่คุณรัก</em>
+    </h2>
+    <p class="reveal d1" data-lang-th="บริการพร้อมออกทุกวัน ตลอด 24 ชั่วโมง เพื่อความสบายใจของคุณและครอบครัว" data-lang-en="Available every day, around the clock — for your peace of mind and your family's wellbeing.">บริการพร้อมออกทุกวัน ตลอด 24 ชั่วโมง เพื่อความสบายใจของคุณและครอบครัว</p>
+    <a href="#contact" class="btn-gold reveal d2">
+      <i data-lucide="phone-call" width="16" height="16"></i>
+      <span data-lang-th="ติดต่อเราเลย" data-lang-en="Contact Us Now">ติดต่อเราเลย</span>
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section class="contact-sec" id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+
+      <div class="reveal">
+        <span class="eyebrow" data-lang-th="ติดต่อเรา" data-lang-en="Get in Touch">ติดต่อเรา</span>
+        <h2 class="contact-info" style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,5vw,2.9rem);font-weight:300;color:var(--cream);line-height:1.4;margin-bottom:1.5rem;">
+          <em data-lang-th="พร้อมรับฟัง" data-lang-en="Ready to Listen">พร้อมรับฟัง</em><br>
+          <span data-lang-th="ทุกความต้องการ" data-lang-en="Every Need">ทุกความต้องการ</span>
+        </h2>
+        <div class="cinfo">
+          <i data-lucide="phone" width="18" height="18"></i>
+          <div>
+            <div class="cinfo-label">+66 2 XXX XXXX</div>
+            <div class="cinfo-sub" data-lang-th="โทรได้ตลอด 24 ชั่วโมง" data-lang-en="Available 24 hours">โทรได้ตลอด 24 ชั่วโมง</div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <i data-lucide="message-circle" width="18" height="18"></i>
+          <div>
+            <div class="cinfo-label">Line: @silvercare</div>
+            <div class="cinfo-sub" data-lang-th="ตอบกลับภายใน 15 นาที" data-lang-en="Response within 15 minutes">ตอบกลับภายใน 15 นาที</div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <i data-lucide="mail" width="18" height="18"></i>
+          <div>
+            <div class="cinfo-label">care@silvercare.th</div>
+            <div class="cinfo-sub" data-lang-th="สำหรับการสอบถามและนัดหมาย" data-lang-en="For enquiries and appointments">สำหรับการสอบถามและนัดหมาย</div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <i data-lucide="map-pin" width="18" height="18"></i>
+          <div>
+            <div class="cinfo-label" data-lang-th="กรุงเทพมหานคร ประเทศไทย" data-lang-en="Bangkok, Thailand">กรุงเทพมหานคร ประเทศไทย</div>
+            <div class="cinfo-sub" data-lang-th="ให้บริการทั่วกรุงเทพฯ และปริมณฑล" data-lang-en="Serving Bangkok and Greater Metropolitan Area">ให้บริการทั่วกรุงเทพฯ และปริมณฑล</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="c-form reveal d2" onsubmit="return false;">
+        <div class="form-row">
+          <div class="fg">
+            <label data-lang-th="ชื่อ-นามสกุล" data-lang-en="Full Name">ชื่อ-นามสกุล</label>
+            <input type="text">
+          </div>
+          <div class="fg">
+            <label data-lang-th="เบอร์โทรศัพท์" data-lang-en="Phone Number">เบอร์โทรศัพท์</label>
+            <input type="tel">
+          </div>
+        </div>
+        <div class="fg">
+          <label data-lang-th="บริการที่สนใจ" data-lang-en="Service of Interest">บริการที่สนใจ</label>
+          <select>
+            <option data-lang-th="เลือกบริการ" data-lang-en="Select a service">เลือกบริการ</option>
+            <option data-lang-th="แพ็กเกจ Essential" data-lang-en="Essential Package">แพ็กเกจ Essential</option>
+            <option data-lang-th="แพ็กเกจ Premium" data-lang-en="Premium Package">แพ็กเกจ Premium</option>
+            <option data-lang-th="แพ็กเกจ Heritage" data-lang-en="Heritage Package">แพ็กเกจ Heritage</option>
+            <option data-lang-th="สอบถามทั่วไป" data-lang-en="General Enquiry">สอบถามทั่วไป</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label data-lang-th="รายละเอียดเพิ่มเติม" data-lang-en="Additional Details">รายละเอียดเพิ่มเติม</label>
+          <textarea></textarea>
+        </div>
+        <button type="submit" class="btn-gold" style="width:100%;justify-content:center;">
+          <i data-lucide="send" width="16" height="16"></i>
+          <span data-lang-th="ส่งข้อความ" data-lang-en="Send Message">ส่งข้อความ</span>
+        </button>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="f-brand">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:var(--cream);">SILVERCARE</div>
+        <div class="f-brand-sub" data-lang-th="บริการพาไปโรงพยาบาลระดับพรีเมียม" data-lang-en="Premium Medical Escort Service">บริการพาไปโรงพยาบาลระดับพรีเมียม</div>
+        <p data-lang-th="มากกว่าการเดินทาง คือความใส่ใจและความไว้วางใจที่ส่งต่อทุกครั้งที่เราออกเดินทางร่วมกัน" data-lang-en="More than a journey — care and trust delivered every time we travel together.">มากกว่าการเดินทาง คือความใส่ใจและความไว้วางใจที่ส่งต่อทุกครั้งที่เราออกเดินทางร่วมกัน</p>
+      </div>
+
+      <div class="f-nav">
+        <h4 data-lang-th="บริการ" data-lang-en="Services">บริการ</h4>
+        <ul>
+          <li><a href="#services" data-lang-th="รถ VIP พรีเมียม" data-lang-en="VIP Premium Vehicle">รถ VIP พรีเมียม</a></li>
+          <li><a href="#services" data-lang-th="ผู้ดูแลประจำตัว" data-lang-en="Personal Escort">ผู้ดูแลประจำตัว</a></li>
+          <li><a href="#services" data-lang-th="ประสานงานโรงพยาบาล" data-lang-en="Hospital Coordination">ประสานงานโรงพยาบาล</a></li>
+          <li><a href="#services" data-lang-th="บริการชาวต่างชาติ" data-lang-en="Foreigner Support">บริการชาวต่างชาติ</a></li>
+        </ul>
+      </div>
+
+      <div class="f-nav">
+        <h4 data-lang-th="เกี่ยวกับ" data-lang-en="About">เกี่ยวกับ</h4>
+        <ul>
+          <li><a href="#about" data-lang-th="ปรัชญาของเรา" data-lang-en="Our Philosophy">ปรัชญาของเรา</a></li>
+          <li><a href="#packages" data-lang-th="แพ็กเกจ" data-lang-en="Packages">แพ็กเกจ</a></li>
+          <li><a href="#testimonials" data-lang-th="รีวิว" data-lang-en="Reviews">รีวิว</a></li>
+          <li><a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a></li>
+        </ul>
+      </div>
+
+      <div class="f-nav">
+        <h4 data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</h4>
+        <ul>
+          <li><a href="tel:+6621234567">+66 2 XXX XXXX</a></li>
+          <li><a href="#">Line: @silvercare</a></li>
+          <li><a href="mailto:care@silvercare.th">care@silvercare.th</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <p data-lang-th="© 2567 ซิลเวอร์แคร์ สงวนลิขสิทธิ์ทุกประการ" data-lang-en="© 2024 SilverCare. All rights reserved.">© 2567 ซิลเวอร์แคร์ สงวนลิขสิทธิ์ทุกประการ</p>
+      <p data-lang-th="บริการดูแลผู้ป่วยพรีเมียม · กรุงเทพมหานคร" data-lang-en="Premium Patient Escort · Bangkok, Thailand">บริการดูแลผู้ป่วยพรีเมียม · กรุงเทพมหานคร</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+lucide.createIcons();
+
+// Navbar scroll
+const nb = document.getElementById('navbar');
+window.addEventListener('scroll', () => nb.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+// Hamburger
+const ham = document.getElementById('ham');
+const mob = document.getElementById('mob-menu');
+ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
+mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); mob.classList.remove('open'); }));
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1, rootMargin:'0px 0px -36px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  });
+});
+</script>
+
+<script>(function(){var K='site-lang',L=localStorage.getItem(K)||'th';function S(l){L=l;localStorage.setItem(K,l);document.documentElement.lang=l;document.querySelectorAll('[data-lang-th]').forEach(function(e){var t=e.getAttribute('data-lang-'+l);if(t!==null){e.textContent=t}});var lb=document.querySelector('.lang-sw__label');if(lb){lb.textContent=l.toUpperCase()}}var sw=document.querySelector('.lang-sw');if(sw){sw.addEventListener('click',function(){S(L==='th'?'en':'th')});sw.style.cursor='pointer'}if(L!=='th'){S(L)}})();</script>
+</body>
+</html>
